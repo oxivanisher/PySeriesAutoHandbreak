@@ -75,7 +75,7 @@ def run(series, season, extension, nativelang, device, destpath, preset, mindura
 
     # set some variables
     internal_destpath = os.path.join(destpath, series)
-    season_string = "{:02d}".format(season)
+    season_string = "{:02d}".format(int(season))
     episode_string = "00"
 
     # ensure the target directory exists
