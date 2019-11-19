@@ -112,7 +112,7 @@ def run(series, season, extension, nativelang, device, destpath, preset, mindura
     if last_file:
         last_episode_str = last_file[len(series) + 5:-4]
         logging.debug("found last episode: %s" % last_episode_str)
-        episode_string = "{:02d}".format(int(last_episode_str) + 1)
+        episode_string = "{:02d}".format(int(last_episode_str))
 
     for title in sorted(titles.keys()):
         # set default options
