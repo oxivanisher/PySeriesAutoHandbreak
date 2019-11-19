@@ -25,7 +25,7 @@ def human_readable_duration(timestamp):
 def run_handbrake(options):
     logging.debug("calling HandBrakeCLI with: %s" % " ".join(str(x) for x in options))
     result = subprocess.run([str(x) for x in ["HandBrakeCLI"] + options], capture_output=True)
-    return result.decode().split('\n')
+    return result.stderr.decode().split('\n')
 
 
 def analyze_scan(output, maxduration):
