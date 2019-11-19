@@ -17,7 +17,7 @@ logging.basicConfig(
 def run_handbrake(options):
     logging.info("calling HandBrakeCLI with: %s" % " ".join(str(x) for x in options))
     result = subprocess.run([str(x) for x in ["HandBrakeCLI"] + options], capture_output=True)
-    return result
+    return result.stderr.split('\n')
 
 
 def analyze_scan(output, maxduration):
@@ -84,8 +84,8 @@ def run(series, season, extension, nativelang, device, destpath, preset, mindura
         os.mkdir(internal_destpath)
 
     # scan the disc for titles we are interested in
-    scan = run_handbrake(["--min-duration", minduration, "--title", "0", "--input", device])
-    titles = analyze_scan(scan.stderr, maxduration)
+    result = run_handbrake(["--min-duration", minduration, "--title", "0", "--input", device])
+    titles = analyze_scan(result, maxduration)
 
     # find last episode file
     last_file = None
