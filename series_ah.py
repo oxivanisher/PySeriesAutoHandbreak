@@ -51,7 +51,8 @@ def analyze_scan(output, maxduration):
 
 
 @click.command()
-@click.option('--series', prompt='Series name', help='The series name', show_default=True)
+@click.option('--series', required=True, prompt='Series name', help='The series name')
+@click.option('--season', required=True, prompt='Season number', help='Season the disc belongs to.')
 @click.option('--extension', default="mkv", show_default=True,
               help='The extension used for created files. Should be according to the --preset option.')
 @click.option('--nativelang', default="eng", show_default=True,
@@ -61,11 +62,10 @@ def analyze_scan(output, maxduration):
               help='The location where the video files are stored.')
 @click.option('--preset', default="Matroska/H.264 MKV 576p25", show_default=True,
               help='The HandBrakeCLI used to encode files. See available options with: HandBrakeCLI -z')
-@click.option('--season', show_default=True, help='Season the disc belongs to.')
 @click.option('--minduration', default=600, show_default=True, help='Minimal number of seconds for episode detection.')
 @click.option('--maxduration', default=6600, show_default=True, help='Maximal number of seconds for episode detection.')
 @click.option('--debug', is_flag=True, default=False, show_default=True, help="Show also debug output")
-def run(series, extension, nativelang, device, destpath, preset, season, minduration, maxduration, debug):
+def run(series, season, extension, nativelang, device, destpath, preset, minduration, maxduration, debug):
     """Simple script to control HandBrakeCLI for ripping series. Please be aware, that you have to"""
     """run this script on the disks in the correct order or the episodes will be wrongly numbered!"""
 
