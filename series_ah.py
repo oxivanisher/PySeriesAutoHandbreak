@@ -85,7 +85,7 @@ def run(series, season, extension, nativelang, device, destpath, preset, mindura
 
     # scan the disc for titles we are interested in
     scan = run_handbrake(["--min-duration", minduration, "--title", "0", "--input", device])
-    titles = analyze_scan(scan.stdout, maxduration)
+    titles = analyze_scan(scan.stderr, maxduration)
 
     # find last episode file
     last_file = None
