@@ -27,10 +27,10 @@ def run_handbrake(options):
     result = subprocess.run([str(x) for x in ["HandBrakeCLI"] + options], capture_output=True)
     stderr = result.stderr.decode().split('\n')
     stdout = result.stdout.decode().split('\n')
-    if stdout:
-        return stdout
     if stderr:
         return stderr
+    if stdout:
+        return stdout
 
 
 def analyze_scan(output, maxduration):
