@@ -116,7 +116,8 @@ def run(series, season, extension, nativelang, device, destpath, preset, mindura
 
     for title in sorted(titles.keys()):
         # set default options
-        hb_options = ["--all-audio", "--subtitle=1-99", "--subtitle-burned=none", "--subtitle-default=none"]
+        hb_options = ["--all-audio", "--subtitle=1-99", "--subtitle-burned=none", "--subtitle-default=none",
+                      "--audio-copy-mask aac,ac3,eac3,truehd,dts,dtshd", "--audio-fallback aac"]
         # --all-subtitles is not selecting all subtitles, read the manual (for the correct version) since
         #                 things changed during versions.
 
