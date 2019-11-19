@@ -142,7 +142,7 @@ def run(series, season, extension, nativelang, device, destpath, preset, mindura
         run_handbrake(hb_options)
         logging.info("  ripping took %s" % human_readable_duration(time.time() - rip_start))
 
-        logging.info("script finished after %s" % human_readable_duration(time.time() - script_start_time))
+    logging.info("script finished after %s" % human_readable_duration(time.time() - script_start_time))
 
 if __name__ == '__main__':
     run()
