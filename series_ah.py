@@ -116,7 +116,9 @@ def run(series, season, extension, nativelang, device, destpath, preset, mindura
 
     for title in sorted(titles.keys()):
         # set default options
-        hb_options = ["--all-audio", "--all-subtitles", "--subtitle-burned=none"]
+        hb_options = ["--all-audio", "--subtitle=1-99", "--subtitle-burned=none", "--subtitle-default=none"]
+        # --all-subtitles is not selecting all subtitles, read the manual (for the correct version) since
+        #                 things changed during versions.
 
         # set device
         hb_options.extend(["--input", device])
@@ -143,6 +145,7 @@ def run(series, season, extension, nativelang, device, destpath, preset, mindura
         logging.info("  ripping took %s" % human_readable_duration(time.time() - rip_start))
 
     logging.info("script finished after %s" % human_readable_duration(time.time() - script_start_time))
+
 
 if __name__ == '__main__':
     run()
