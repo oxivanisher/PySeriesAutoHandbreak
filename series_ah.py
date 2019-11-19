@@ -124,7 +124,7 @@ def run(series, season, extension, nativelang, device, destpath, preset, mindura
         # set output filename
         episode_string = "{:02d}".format(int(episode_string) + 1)
         output_filename = "%s S%sE%s.%s" % (series, season_string, episode_string, extension)
-        hb_options.extend(["--output", os.path.join(destpath, output_filename)])
+        hb_options.extend(["--output", os.path.join(internal_destpath, output_filename)])
 
         # set handbreak preset
         hb_options.extend(["--preset", preset])
