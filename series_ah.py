@@ -25,7 +25,12 @@ def human_readable_duration(timestamp):
 def run_handbrake(options):
     logging.debug("calling HandBrakeCLI with: %s" % " ".join(str(x) for x in options))
     result = subprocess.run([str(x) for x in ["HandBrakeCLI"] + options], capture_output=True)
-    return result.stderr.decode().split('\n')
+    stderr = result.stderr.decode().split('\n')
+    stdout = result.stdout.decode().split('\n')
+    if stdout:
+        return stdout
+    if stderr:
+        return stderr
 
 
 def analyze_scan(output, maxduration):
@@ -117,8 +122,8 @@ def run(series, season, extension, nativelang, device, destpath, preset, mindura
     for title in sorted(titles.keys()):
         # set default options
         hb_options = ["--all-audio", "--subtitle=1-99", "--subtitle-burned=none", "--subtitle-default=none",
-                      "--audio-copy-mask aac,ac3,eac3,truehd,dts,dtshd", "--audio-fallback aac", "--encoder=x264",
-                      "--encoder-preset=slow", "--encoder-tune=film"]
+                      "--audio-copy-mask aac,ac3,eac3,truehd,dts,dtshd", "--audio-fallback aac", "--aencoder=copy",
+                      "--encoder=x264", "--encoder-preset=slow", "--encoder-tune=film"]
         # --all-subtitles is not selecting all subtitles, read the manual (for the correct version) since
         #                 things changed during versions.
 
