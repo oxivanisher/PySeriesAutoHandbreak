@@ -14,10 +14,18 @@ logging.basicConfig(
 )
 
 
+def human_readable_duration(timestamp):
+    hours = timestamp // 3600
+    timestamp = timestamp - (hours * 3600)
+    minutes = timestamp // 60
+    seconds = timestamp - (minutes * 60)
+    return '{:02}:{:02}:{:02}'.format(int(hours), int(minutes), int(seconds))
+
+
 def run_handbrake(options):
-    logging.info("calling HandBrakeCLI with: %s" % " ".join(str(x) for x in options))
+    logging.debug("calling HandBrakeCLI with: %s" % " ".join(str(x) for x in options))
     result = subprocess.run([str(x) for x in ["HandBrakeCLI"] + options], capture_output=True)
-    return result.stderr.split('\n')
+    return result.decode().split('\n')
 
 
 def analyze_scan(output, maxduration):
@@ -26,6 +34,7 @@ def analyze_scan(output, maxduration):
 
     index = 0
     duration = 0
+    internal_total_duration = 0
     for line in output:
         if line.startswith("+ title"):
             logging.debug("found title marker")
@@ -43,10 +52,13 @@ def analyze_scan(output, maxduration):
         if index and duration:
             if duration <= maxduration:
                 titles[index] = duration
+                internal_total_duration += duration
             title_found = False
             index = 0
             duration = 0
 
+        logging.info("found %s titles with a total duration of %s" % (len(titles.keys()),
+                                                                      human_readable_duration(internal_total_duration)))
     return titles
 
 
@@ -68,6 +80,7 @@ def analyze_scan(output, maxduration):
 def run(series, season, extension, nativelang, device, destpath, preset, minduration, maxduration, debug):
     """Simple script to control HandBrakeCLI for ripping series. Please be aware, that you have to"""
     """run this script on the disks in the correct order or the episodes will be wrongly numbered!"""
+    script_start_time = time.time()
 
     # enable debug output if required
     if debug:
@@ -84,6 +97,7 @@ def run(series, season, extension, nativelang, device, destpath, preset, mindura
         os.mkdir(internal_destpath)
 
     # scan the disc for titles we are interested in
+    logging.info("scanning for titles...")
     result = run_handbrake(["--min-duration", minduration, "--title", "0", "--input", device])
     titles = analyze_scan(result, maxduration)
 
@@ -96,7 +110,7 @@ def run(series, season, extension, nativelang, device, destpath, preset, mindura
 
     # calculate next episode
     if last_file:
-        last_episode_str = last_file[len(season) + 4:-4]
+        last_episode_str = last_file[len(series) + 5:-4]
         logging.debug("found last episode: %s" % last_episode_str)
         episode_string = "{:02d}".format(int(last_episode_str) + 1)
 
@@ -122,11 +136,13 @@ def run(series, season, extension, nativelang, device, destpath, preset, mindura
         hb_options.extend(["--native-language", nativelang])
 
         # run the rip
-        logging.info("ripping title %s with duration %s to file %s" % (title, titles[title], output_filename))
+        logging.info("ripping title %s with duration %s to file %s..." % (title, human_readable_duration(titles[title]),
+                                                                          output_filename))
         rip_start = time.time()
         run_handbrake(hb_options)
-        logging.info("  ripping finished after %s seconds" % time.time() - rip_start)
+        logging.info("  ripping took %s" % human_readable_duration(time.time() - rip_start))
 
+        logging.info("script finished after %s" % human_readable_duration(time.time() - script_start_time))
 
 if __name__ == '__main__':
     run()
