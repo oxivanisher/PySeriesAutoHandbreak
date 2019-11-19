@@ -117,7 +117,8 @@ def run(series, season, extension, nativelang, device, destpath, preset, mindura
     for title in sorted(titles.keys()):
         # set default options
         hb_options = ["--all-audio", "--subtitle=1-99", "--subtitle-burned=none", "--subtitle-default=none",
-                      "--audio-copy-mask aac,ac3,eac3,truehd,dts,dtshd", "--audio-fallback aac"]
+                      "--audio-copy-mask aac,ac3,eac3,truehd,dts,dtshd", "--audio-fallback aac", "--encoder=x264",
+                      "--encoder-preset=slow", "--encoder-tune=film"]
         # --all-subtitles is not selecting all subtitles, read the manual (for the correct version) since
         #                 things changed during versions.
 
@@ -130,7 +131,7 @@ def run(series, season, extension, nativelang, device, destpath, preset, mindura
         hb_options.extend(["--output", os.path.join(internal_destpath, output_filename)])
 
         # set handbreak preset
-        hb_options.extend(["--preset", preset])
+        # hb_options.extend(["--preset", preset])
 
         # set title to rip
         hb_options.extend(["--title", title])
