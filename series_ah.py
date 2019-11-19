@@ -72,7 +72,7 @@ def analyze_scan(output, maxduration):
 @click.option('--device', default="/dev/dvd", show_default=True, help='The optical drive to be used.')
 @click.option('--destpath', default="%s/Videos" % os.path.expanduser("~"), show_default=True,
               help='The location where the video files are stored.')
-@click.option('--preset', default="Matroska/H.264 MKV 576p25", show_default=True,
+@click.option('--preset', default="General/HQ 576p25 Surround", show_default=True,
               help='The HandBrakeCLI used to encode files. See available options with: HandBrakeCLI -z')
 @click.option('--minduration', default=600, show_default=True, help='Minimal number of seconds for episode detection.')
 @click.option('--maxduration', default=6600, show_default=True, help='Maximal number of seconds for episode detection.')
