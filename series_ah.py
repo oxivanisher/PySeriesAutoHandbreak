@@ -57,8 +57,8 @@ def analyze_scan(output, maxduration):
             index = 0
             duration = 0
 
-        logging.info("found %s titles with a total duration of %s" % (len(titles.keys()),
-                                                                      human_readable_duration(internal_total_duration)))
+    logging.info("found %s titles with a total duration of %s" % (len(titles.keys()),
+                                                                  human_readable_duration(internal_total_duration)))
     return titles
 
 
