@@ -27,7 +27,9 @@ Those commands have to be run in the root of the project directory.
 ### Babylon 5
 Since Babylon 5 was mangled for the DVD release (double cropped), some optimizations where necessary for a better quality.
 To do this I added the following options to `hb_options`:
-`"--hqdn3d=medium", "--comb-detect=permissive", "--comb-detect=permissive", "--deinterlace=bob", "--decomb=bob"`
+```
+"--hqdn3d=medium", "--comb-detect=permissive", "--comb-detect=permissive", "--deinterlace=bob", "--decomb=bob"
+```
 
 ### Stargate SG-1
 The DVD releases for this series are different for several seasons. In some seasons, there are titles multiple times listed. To counter the ripping of the same title multiple times, I added the following hack on line 65:
