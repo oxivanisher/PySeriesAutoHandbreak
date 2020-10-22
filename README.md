@@ -22,3 +22,24 @@ Those commands have to be run in the root of the project directory.
 Those commands have to be run in the root of the project directory.
 1) Activate the virtual environment if not already active: `source venv/bin/activate`
 2) Run the script: `./series_ah.py --help`
+
+## Usecases
+### Babylon 5
+Since Babylon 5 was mangled for the DVD release (double cropped), some optimizations where necessary for a better quality.
+To do this I added the following options to `hb_options`: `"--hqdn3d=medium", "--comb-detect=permissive", "--comb-detect=permissive", "--deinterlace=bob", "--decomb=bob"`
+
+### Stargate SG-1
+The DVD releases for this series are different for several seasons. In some seasons, there are titles multiple times listed. To counter the ripping of the same title multiple times, I added the following hack on line 65:
+```
+    # SG1 Hack (only first half of titles)
+    import math
+    hack_titles = sorted(titles.keys())
+    # hack_middle_index = int(len(hack_titles)/2)
+    hack_middle_index = math.floor(len(hack_titles)/2)
+    hack_first_half = hack_titles[:hack_middle_index]
+    hack_old_titles = titles
+    titles = {}
+    for title in hack_first_half:
+      titles[title] = hack_old_titles[title]
+    internal_total_duration = internal_total_duration/2
+```
